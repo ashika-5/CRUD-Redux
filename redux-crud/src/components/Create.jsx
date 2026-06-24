@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUser } from "../features/userDetailSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Create = () => {
+  const navigate = useNavigate();
 
     const [users, setUsers] = useState({});
 
@@ -18,7 +20,8 @@ export const Create = () => {
         console.log( users);
         
             
-        dispatch(createUser(users));
+      dispatch(createUser(users));
+      navigate("/read")
   
         
     }
