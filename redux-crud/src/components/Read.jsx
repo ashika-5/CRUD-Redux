@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { deleteUser, showUser } from "../features/userDetailSlice";
 import CustomModal from "./CustomModal";
 
 const Read = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [id, setID] = useState();
-
   const [showPopup, setShowPopup] = useState(false);
 
   const { users, loading } = useSelector((state) => state.app);
@@ -53,7 +54,11 @@ const Read = () => {
                   View
                 </button>
 
-                <button type="button" className="card-link">
+                <button
+                  type="button"
+                  className="card-link"
+                  onClick={() => navigate(`/edit/${ele.id}`)}
+                >
                   Edit
                 </button>
                 <button
