@@ -38,7 +38,28 @@ export const showUser = createAsyncThunk("showUser", async () => {
     return rejectWithValue(error);
   }
 });
-//redux toolkit 
+
+//delete action
+export const deleteUser = createAsyncThunk(
+  "deleteUser",
+  async (id, { rejectWithValue }) => {
+    const response = await fetch(
+      `https://6a3a1294917c7b14c74caa53.mockapi.io/CRUD/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
+
+    try {
+      await response.json();
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+//redux toolkit
 export const userDetail = createSlice({
   name: "userDetail",
   initialState: {
@@ -69,11 +90,26 @@ export const userDetail = createSlice({
 
       .addCase(showUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.users.push(action.payload);
+        state.users = action.payload;
       })
 
-      
       .addCase(showUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = state.users.filter(
+          (user) => Number(user.id) !== Number(action.payload),
+        );
+      })
+
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

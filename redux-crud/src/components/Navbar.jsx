@@ -1,6 +1,10 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 export const Navbar = () => {
+
+
+  const allUsers = useSelector((state) => state.app.users);
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,7 +21,7 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <Link to="/read" className="nav-link">
-                All Post
+                All Post({allUsers.length})
               </Link>
             </li>
 
